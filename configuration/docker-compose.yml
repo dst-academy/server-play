@@ -1,0 +1,47 @@
+version: "2"
+services:
+  overworld:
+    image: "dstacademy/dontstarvetogether:0.7"
+    command: dst-server start --update=all
+    tty: true
+    stdin_open: true
+    restart: always
+    cpuset: "${DOCKER_CPU}"
+    ports:
+      - "${DOCKER_ADDRESS}:10999:10999/udp"
+    volumes:
+      - ./state:/var/lib/dsta/cluster
+    env_file:
+      - ./env/world.env
+      - ./env/overworld.env
+      - ./.env
+  underworld:
+    image: "dstacademy/dontstarvetogether:0.7"
+    command: dst-server start --update=all
+    tty: true
+    stdin_open: true
+    restart: always
+    cpuset: "${DOCKER_CPU}"
+    ports:
+      - "${DOCKER_ADDRESS}:11000:11000/udp"
+    volumes_from:
+      - overworld
+    env_file:
+      - ./env/world.env
+      - ./env/underworld.env
+      - ./.env
+  log:
+    image: "dstacademy/filebeat:0.2"
+    tty: true
+    stdin_open: true
+    restart: always
+    cpuset: "${DOCKER_CPU}"
+    volumes:
+      - ./data/filebeat.yml:/filebeat.yml
+    volumes_from:
+      - overworld:ro
+    extra_hosts:
+      - "buffer:${BUFFER_ADDRESS}"
+    env_file:
+      - ./env/log.env
+      - ./.env
