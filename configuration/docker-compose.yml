@@ -28,7 +28,7 @@ services:
       - ./.env
   log:
     image: "dstacademy/filebeat:0.2"
-     container_name: log
+    container_name: log
     tty: true
     stdin_open: true
     restart: always
