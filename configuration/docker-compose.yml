@@ -3,14 +3,12 @@ services:
   overworld:
     image: "dstacademy/dontstarvetogether:0.7"
     command: dst-server start --update=all
+    container_name: overworld
     tty: true
     stdin_open: true
     restart: always
-    cpuset: "${DOCKER_CPU}"
     ports:
-      - "${DOCKER_ADDRESS}:10999:10999/udp"
-    volumes:
-      - ./state:/var/lib/dsta/cluster
+      - "10999:10999/udp"
     env_file:
       - ./env/world.env
       - ./env/overworld.env
@@ -18,28 +16,24 @@ services:
   underworld:
     image: "dstacademy/dontstarvetogether:0.7"
     command: dst-server start --update=all
+    container_name: underworld
     tty: true
     stdin_open: true
     restart: always
-    cpuset: "${DOCKER_CPU}"
     ports:
-      - "${DOCKER_ADDRESS}:11000:11000/udp"
-    volumes_from:
-      - overworld
+      - "11000:11000/udp"
     env_file:
       - ./env/world.env
       - ./env/underworld.env
       - ./.env
   log:
     image: "dstacademy/filebeat:0.2"
+     container_name: log
     tty: true
     stdin_open: true
     restart: always
-    cpuset: "${DOCKER_CPU}"
     volumes:
       - ./data/filebeat.yml:/filebeat.yml
-    volumes_from:
-      - overworld:ro
     extra_hosts:
       - "buffer:${BUFFER_ADDRESS}"
     env_file:
