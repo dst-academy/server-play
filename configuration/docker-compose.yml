@@ -1,4 +1,4 @@
-version: "2"
+version: "2.2"
 services:
   overworld:
     image: "dstacademy/dontstarvetogether:0.7"
@@ -13,7 +13,7 @@ services:
       - ./env/overworld.env
       - ./.env
     environment:
-      - SERVER_PORT="${SERVICE_OVERWORLD_PORT:-10999}"
+      - SERVER_PORT=${SERVICE_OVERWORLD_PORT:-10999}
   underworld:
     image: "dstacademy/dontstarvetogether:0.7"
     command: dst-server start --update=all
@@ -27,7 +27,7 @@ services:
       - ./env/underworld.env
       - ./.env
     environment:
-      - SERVER_PORT="${SERVICE_UNDERWORLD_PORT:-11000}"
+      - SERVER_PORT=${SERVICE_UNDERWORLD_PORT:-11000}
   log:
     image: "dstacademy/filebeat:0.2"
     tty: true
