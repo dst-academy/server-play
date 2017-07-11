@@ -3,32 +3,33 @@ services:
   overworld:
     image: "dstacademy/dontstarvetogether:0.7"
     command: dst-server start --update=all
-    container_name: overworld
     tty: true
     stdin_open: true
     restart: always
     ports:
-      - "10999:10999/udp"
+      - "${SERVICE_OVERWORLD_PORT:-10999}:${SERVICE_OVERWORLD_PORT:-10999}/udp"
     env_file:
       - ./env/world.env
       - ./env/overworld.env
       - ./.env
+    environment:
+      - SERVER_PORT="${SERVICE_OVERWORLD_PORT:-10999}"
   underworld:
     image: "dstacademy/dontstarvetogether:0.7"
     command: dst-server start --update=all
-    container_name: underworld
     tty: true
     stdin_open: true
     restart: always
     ports:
-      - "11000:11000/udp"
+      - "${SERVICE_UNDERWORLD_PORT:-11000}:${SERVICE_UNDERWORLD_PORT:-11000}/udp"
     env_file:
       - ./env/world.env
       - ./env/underworld.env
       - ./.env
+    environment:
+      - SERVER_PORT="${SERVICE_UNDERWORLD_PORT:-11000}"
   log:
     image: "dstacademy/filebeat:0.2"
-    container_name: log
     tty: true
     stdin_open: true
     restart: always
