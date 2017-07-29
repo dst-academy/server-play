@@ -37,6 +37,8 @@ services:
     restart: always
     volumes:
       - ./data/filebeat.yml:/filebeat.yml
+    volumes_from:
+      - overworld:ro
     extra_hosts:
       - "buffer:${BUFFER_ADDRESS}"
     env_file:
