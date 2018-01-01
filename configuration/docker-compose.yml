@@ -14,7 +14,6 @@ services:
       - ./.env
     environment:
       - SERVER_PORT=${SERVICE_OVERWORLD_PORT:-10999}
-    cpuset: ${MACHINE_CPUS}
   underworld:
     image: "dstacademy/dontstarvetogether:0.8"
     command: dst-server start --update=all
@@ -29,7 +28,6 @@ services:
       - ./.env
     environment:
       - SERVER_PORT=${SERVICE_UNDERWORLD_PORT:-11000}
-    cpuset: ${MACHINE_CPUS}
   log:
     image: "dstacademy/filebeat:0.2"
     tty: true
@@ -44,4 +42,3 @@ services:
     env_file:
       - ./env/log.env
       - ./.env
-    cpuset: ${MACHINE_CPUS}
