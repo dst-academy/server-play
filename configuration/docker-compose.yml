@@ -42,3 +42,10 @@ services:
     env_file:
       - ./env/log.env
       - ./.env
+  heal:
+    image: "willfarrell/autoheal"
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=academy.dst.config.update
+      - AUTOHEAL_INTERVAL=60
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
