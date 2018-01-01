@@ -1,8 +1,14 @@
 return {
 	id="DST_CAVE",
 	location="cave",
-	name="",
-	desc="",
+	name="The Caves",
+	desc="Delve into the caves... together!",
+	background_node_range={ 0, 1 },
+	hideminimap=false,
+	max_playlist_position=999,
+	min_playlist_position=0,
+	numrandom_set_pieces=0,
+	override_level_string=false,
 	overrides={
 		banana="default",
 		bats="default",
@@ -50,6 +56,9 @@ return {
 		wormattacks="default",
 		wormhole_prefab="tentacle_pillar",
 		wormlights="default",
-		worms="default",
+		worms="default"
 	},
+	required_prefabs={ "multiplayer_portal" },
+	substitutes={  },
+	version=3
 }
