@@ -1,7 +1,7 @@
 version: "2.2"
 services:
   overworld:
-    image: "dstacademy/dontstarvetogether:0.7"
+    image: "dstacademy/dontstarvetogether:0.8"
     command: dst-server start --update=all
     tty: true
     stdin_open: true
@@ -16,7 +16,7 @@ services:
       - SERVER_PORT=${SERVICE_OVERWORLD_PORT:-10999}
     cpuset: ${MACHINE_CPUS}
   underworld:
-    image: "dstacademy/dontstarvetogether:0.7"
+    image: "dstacademy/dontstarvetogether:0.8"
     command: dst-server start --update=all
     tty: true
     stdin_open: true
