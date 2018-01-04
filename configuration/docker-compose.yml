@@ -8,6 +8,8 @@ services:
     restart: always
     ports:
       - "${SERVICE_OVERWORLD_PORT:-10999}:${SERVICE_OVERWORLD_PORT:-10999}/udp"
+    volumes:
+      - ./state:/var/lib/dsta/cluster
     env_file:
       - ./env/world.env
       - ./env/overworld.env
@@ -22,6 +24,8 @@ services:
     restart: always
     ports:
       - "${SERVICE_UNDERWORLD_PORT:-11000}:${SERVICE_UNDERWORLD_PORT:-11000}/udp"
+    volumes_from:
+      - overworld
     env_file:
       - ./env/world.env
       - ./env/underworld.env
