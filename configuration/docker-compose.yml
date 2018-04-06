@@ -1,10 +1,8 @@
-version: "2.2"
+version: "3.6"
 services:
   overworld:
-    image: "dstacademy/dontstarvetogether:0.8"
+    image: dstacademy/dontstarvetogether:0.8
     command: dst-server start --update=all
-    tty: true
-    stdin_open: true
     restart: always
     ports:
       - "${SERVICE_OVERWORLD_PORT:-10999}:${SERVICE_OVERWORLD_PORT:-10999}/udp"
@@ -17,35 +15,19 @@ services:
     environment:
       - SERVER_PORT=${SERVICE_OVERWORLD_PORT:-10999}
   underworld:
-    image: "dstacademy/dontstarvetogether:0.8"
+    image: dstacademy/dontstarvetogether:0.8
     command: dst-server start --update=all
-    tty: true
-    stdin_open: true
     restart: always
     ports:
       - "${SERVICE_UNDERWORLD_PORT:-11000}:${SERVICE_UNDERWORLD_PORT:-11000}/udp"
-    volumes_from:
-      - overworld
+    volumes:
+      - ./state:/var/lib/dsta/cluster
     env_file:
       - ./env/world.env
       - ./env/underworld.env
       - ./.env
     environment:
       - SERVER_PORT=${SERVICE_UNDERWORLD_PORT:-11000}
-  log:
-    image: "dstacademy/filebeat:0.2"
-    tty: true
-    stdin_open: true
-    restart: always
-    volumes:
-      - ./data/filebeat.yml:/filebeat.yml
-    volumes_from:
-      - overworld:ro
-    extra_hosts:
-      - "buffer:${BUFFER_ADDRESS}"
-    env_file:
-      - ./env/log.env
-      - ./.env
   heal:
     image: "willfarrell/autoheal"
     environment:
