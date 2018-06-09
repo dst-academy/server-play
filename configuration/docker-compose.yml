@@ -28,10 +28,17 @@ services:
       - ./.env
     environment:
       - SERVER_PORT=${SERVICE_UNDERWORLD_PORT:-11000}
-  heal:
-    image: "willfarrell/autoheal"
-    environment:
-      - AUTOHEAL_CONTAINER_LABEL=academy.dst.config.update
-      - AUTOHEAL_INTERVAL=60
+  log:
+    image: "dstacademy/filebeat:0.3"
+    restart: always
+    depends_on:
+      - overworld
+      - underworld
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./state:/var/lib/dsta/cluster
+      - ./data/filebeat.yml:/filebeat.yml
+    extra_hosts:
+      - "buffer:${BUFFER_ADDRESS}"
+    env_file:
+      - ./env/log.env
+      - ./.env
