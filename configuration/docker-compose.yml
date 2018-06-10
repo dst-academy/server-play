@@ -28,17 +28,3 @@ services:
       - ./.env
     environment:
       - SERVER_PORT=${SERVICE_UNDERWORLD_PORT:-11000}
-  log:
-    image: "dstacademy/filebeat:0.3"
-    restart: always
-    depends_on:
-      - overworld
-      - underworld
-    volumes:
-      - ./state:/var/lib/dsta/cluster
-      - ./data/filebeat.yml:/filebeat.yml
-    extra_hosts:
-      - "buffer:${BUFFER_ADDRESS}"
-    env_file:
-      - ./env/log.env
-      - ./.env
